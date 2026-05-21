@@ -1,0 +1,691 @@
+﻿\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+% remove duplicate/mangled front-matter and restore proper document start
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\begin{document}
+
+% -------- Remerciements (one page) --------
+	hispagestyle{empty}
+\phantomsection
+\addcontentsline{toc}{chapter}{Remerciements}
+\begin{center}{\LARGE Remerciements}\end{center}
+
+Nous tenons \`a exprimer notre sinc\`ere gratitude envers toutes les personnes qui ont
+contribu\'e, de pr\`es ou de loin, \`a la r\'ealisation de ce projet.
+
+Nos remerciements s'adressent en premier lieu \`a notre encadrant,
+	extbf{Monsieur HOUSSAM MOUSTANSIR}, pour sa disponibilit\'e, ses conseils avis\'es
+et son soutien tout au long de ce travail. Ses orientations ont \'et\'e d'une valeur
+inestimable pour la bonne conduite du projet.
+
+Nous remercions \egalement l'ensemble du corps professoral de notre \`etablissement
+pour la formation de qualit\'e dispens\'ee, qui nous a permis d'acqu\'erir les
+comp\'etences n\'ecessaires \`a la r\'ealisation de ce projet.
+
+Enfin, nous exprimons notre reconnaissance envers nos familles et amis pour leur
+soutien moral et leurs encouragements constants.
+
+\clearpage
+
+% -------- Résumé (one page) --------
+	hispagestyle{empty}
+\phantomsection
+\addcontentsline{toc}{chapter}{Résumé}
+\begin{center}{\LARGE R\'esum\'e}\end{center}
+
+Ce rapport pr\'esente le d\'eveloppement de \textbf{Gestion de Biblioth\`eque}, une application web
+d\'edi\'ee \`a la gestion d'une biblioth\`eque. Le projet repose sur une architecture
+moderne combinant \textbf{Laravel} comme framework backend et \textbf{Vue.js} pour
+l'interface utilisateur dynamique. La communication entre les deux couches est assur\'ee
+par une API RESTful, garantissant une s\'eparation claire des responsabilit\'es et une
+maintenabilit\'e accrue du code.
+
+L'application permet aux utilisateurs de g\'erer les livres, auteurs, emprunts, r\'eservations,
+et avis. Une couche d'administration permet la gestion des utilisateurs et la consultation
+de statistiques globales. La qualit\'e du syst\`eme est assur\'ee gr\^ace \`a \textbf{Robot Framework},
+utilis\'e pour les tests fonctionnels automatis\'es.
+
+La mod\'elisation du projet a \'et\'e r\'ealis\'ee selon les standards UML, \`a
+travers plusieurs diagrammes~: cas d'utilisation, classes, s\'equence, activit\'e,
+\'etat-transition et paquetage.
+
+\vspace{0.5cm}
+\noindent\textbf{Mots-cl\'es~:} Laravel, Vue.js, Robot Framework, gestion de biblioth\`eque, API REST, UML, application web.
+
+\clearpage
+
+% -------- Résumé détaill\'e (one page) --------
+	hispagestyle{empty}
+\phantomsection
+\addcontentsline{toc}{chapter}{R\'esum\'e d\'etaill\'e}
+\begin{center}{\LARGE R\'esum\'e d\'etaill\'e}\end{center}
+
+Ce rapport d\'ecrit le d\'eveloppement de \textbf{Gestion de Biblioth\`eque}, une application web de
+gestion d'une biblioth\`eque. Le projet s'appuie sur une architecture moderne qui
+associe \textbf{Laravel} comme framework backend et \textbf{Vue.js} pour la conception
+de l'interface utilisateur dynamique. La communication entre ces deux couches est
+assur\'ee par une API RESTful, garantissant une s\'eparation nette des responsabilit\'es
+et une meilleure maintenabilit\'e de l'ensemble du syst\`eme.
+
+L'application offre \`a chaque utilisateur la possibilit\'e de g\'erer les livres, consulter les auteurs,
+effectuer des emprunts, r\'eservations, et laisser des avis. Un espace
+d'administration permet de g\'erer les comptes utilisateurs et de consulter des
+statistiques globales sur l'utilisation de la plateforme. La qualit\'e du syst\`eme
+est garantie par l'utilisation de \textbf{Robot Framework}, d\'edi\'e \`a
+l'automatisation des tests fonctionnels.
+
+La mod\'elisation du projet respecte les standards du langage UML et s'appuie sur
+six types de diagrammes~: les diagrammes des cas d'utilisation, de classes, de
+s\'equence, d'activit\'e, \'etat-transition et de paquetage.
+
+\clearpage
+	ableofcontents
+\addcontentsline{toc}{chapter}{Remerciements}
+
+Nous tenons \`a exprimer notre sinc\`ere gratitude envers toutes les personnes qui ont
+contribu\'e, de pr\`es ou de loin, \`a la r\'ealisation de ce projet.
+
+Nos remerciements s'adressent en premier lieu \`a notre encadrant,
+\textbf{Monsieur HOUSSAM MOUSTANSIR}, pour sa disponibilit\'e, ses conseils avis\'es
+et son soutien tout au long de ce travail. Ses orientations ont \'et\'e d'une valeur
+inestimable pour la bonne conduite du projet.
+
+Nous remercions \'egalement l'ensemble du corps professoral de notre \'etablissement
+pour la formation de qualit\'e dispens\'ee, qui nous a permis d'acqu\'erir les
+comp\'etences n\'ecessaires \`a la r\'ealisation de ce projet.
+
+Enfin, nous exprimons notre reconnaissance envers nos familles et amis pour leur
+soutien moral et leurs encouragements constants.
+
+\chapter*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+Ce rapport pr\'esente le d\'eveloppement de \textbf{Gestion de Bibliothèque}, une application web
+d\'edi\'ee \`a la gestion d'une biblioth\`eque. Le projet repose sur une architecture
+moderne combinant \textbf{Laravel} comme framework backend et \textbf{Vue.js} pour
+l'interface utilisateur dynamique. La communication entre les deux couches est assur\'ee
+par une API RESTful, garantissant une s\'eparation claire des responsabilit\'es et une
+maintenabilit\'e accrue du code.
+
+L'application permet aux utilisateurs de g\'erer les livres, auteurs, emprunts, réservations,
+et avis. Une couche d'administration permet la gestion des utilisateurs et la consultation
+de statistiques globales. La qualit\'e du syst\`eme est assur\'ee gr\^ace \`a \textbf{Robot Framework},
+utilis\'e pour les tests fonctionnels automatis\'es.
+
+La mod\'elisation du projet a \'et\'e r\'ealis\'ee selon les standards UML, \`a
+travers plusieurs diagrammes~: cas d'utilisation, classes, s\'equence, activit\'e,
+\'etat-transition et paquetage.
+
+\textbf{Mots-cl\'es~:} Laravel, Vue.js, Robot Framework, gestion de bibliothèque,
+API REST, UML, application web.
+
+\chapter*{Résumé détaillé}
+\addcontentsline{toc}{chapter}{Résumé détaillé}
+
+Ce rapport d\'ecrit le d\'eveloppement de \textbf{Gestion de Bibliothèque}, une application web de
+gestion d'une biblioth\`eque. Le projet s'appuie sur une architecture moderne qui
+associe \textbf{Laravel} comme framework backend et \textbf{Vue.js} pour la conception
+de l'interface utilisateur dynamique. La communication entre ces deux couches est
+assur\'ee par une API RESTful, garantissant une s\'eparation nette des responsabilit\'es
+et une meilleure maintenabilit\'e de l'ensemble du syst\`eme.
+
+L'application offre \`a chaque utilisateur la possibilit\'e de gérer les livres, consulter les auteurs,
+effectuer des emprunts, réservations, et laisser des avis. Un espace
+d'administration permet de gérer les comptes utilisateurs et de consulter des
+statistiques globales sur l'utilisation de la plateforme. La qualit\'e du syst\`eme
+est garantie par l'utilisation de \textbf{Robot Framework}, dédié \`a
+l'automatisation des tests fonctionnels.
+
+La mod\'elisation du projet respecte les standards du langage UML et s'appuie sur
+six types de diagrammes~: les diagrammes des cas d'utilisation, de classes, de
+s\'equence, d'activit\'e, \'etat-transition et de paquetage.
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\pagenumbering{arabic}
+
+\chapter*{Introduction générale}
+\addcontentsline{toc}{chapter}{Introduction générale}
+
+Dans un contexte o\`u la gestion des ressources documentaires est essentielle pour les biblioth\`eques,
+les outils numériques jouent un r\^ole croissant pour aider les utilisateurs \`a
+accéder et gérer les livres efficacement. Pourtant, de nombreuses biblioth\`eques peinent encore \`a
+offrir une expérience utilisateur moderne et intuitive pour la recherche, l'emprunt et la gestion
+des collections.
+
+C'est dans cette perspective que s'inscrit le projet \textbf{Gestion de Bibliothèque}, une application
+web pensée pour répondre précisément \`a ce besoin. L'objectif est de fournir un espace
+centralisé pour gérer les livres, auteurs, emprunts, réservations, et avis des utilisateurs.
+
+Sur le plan technique, le projet met en œuvre une architecture full-stack moderne~:
+\textbf{Laravel} est utilisé côté serveur pour la gestion des données et la
+logique métier, tandis que \textbf{Vue.js} assure une expérience utilisateur fluide
+et réactive côté client. Les deux couches communiquent via une API RESTful. La
+qualité du système est assurée par des tests automatisés réalisés avec
+    ableofcontents
+\section{Présentation du système}
+
+Gestion de Bibliothèque est une application web à destination des bibliothèques et utilisateurs.
+Elle repose sur une architecture client-serveur~: le frontend Vue.js communique avec le backend Laravel via
+une API REST sécurisée. Les données sont persistées dans une base de données
+relationnelle MySQL.
+
+Deux types d'acteurs interagissent avec le système~:
+\begin{itemize}
+    \item \textbf{L'utilisateur standard}~: il gère ses emprunts, réservations, avis et profil.
+    \item \textbf{L'administrateur}~: il supervise les comptes utilisateurs, gère les livres et
+          consulte les statistiques globales.
+\end{itemize}
+
+\section{Conclusion}
+
+Ce chapitre a permis de poser les bases du projet Gestion de Bibliothèque en présentant son contexte,
+sa problématique et ses objectifs. Le chapitre suivant sera consacré à la conception
+et à la modélisation UML du système.
+
+\chapter{Conception et Modélisation UML}
+
+\begin{center}
+    \textbf{Résumé du chapitre}
+\end{center}
+\begin{center}
+    \fbox{%
+        \begin{minipage}{0.85\textwidth}
+            \small
+            Ce chapitre est consacré à la modélisation UML du système Gestion de Bibliothèque.
+            Il présente les six diagrammes utilisés pour formaliser l'architecture
+            statique et le comportement dynamique de l'application, accompagnés chacun
+            d'une définition et d'une description de leur application au projet.
+        \end{minipage}
+    }
+\end{center}
+
+\clearpage
+\section{Introduction}
+
+La modélisation est une étape fondamentale dans tout projet de développement
+logiciel. Elle permet de formaliser les besoins, de définir l'architecture du système
+et d'anticiper les interactions entre ses composants avant d'entamer la phase de
+développement. Pour ce projet, nous avons utilisé le langage
+\textbf{UML (Unified Modeling Language)} \cite{uml}, qui constitue le standard de
+facto en ingénierie logicielle pour la représentation visuelle des systèmes.
+
+Six types de diagrammes ont été produits, couvrant aussi bien la vision statique
+(structure) que la vision dynamique (comportement) du système.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{"uml-logo.png"}
+\end{figure}
+
+\section{Diagramme des cas d'utilisation}
+
+\subsection{Définition}
+
+Le diagramme des cas d'utilisation est l'un des diagrammes comportementaux d'UML
+\cite{uml}. Il permet de représenter les interactions entre les acteurs externes
+(utilisateurs ou systèmes tiers) et les fonctionnalités offertes par le système.
+Chaque cas d'utilisation décrit une séquence d'actions réalisée par un acteur
+pour atteindre un objectif particulier. Ce diagramme est particulièrement utile en
+phase d'analyse des besoins, car il offre une vue globale et accessible du périmètre
+fonctionnel du système \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+Le système de gestion de bibliothèque implique deux acteurs principaux~:
+l'\textbf{utilisateur standard} et l'\textbf{administrateur}. L'utilisateur peut
+s'inscrire, se connecter, rechercher des livres, effectuer des emprunts, réservations,
+laisser des avis et modifier son profil. L'administrateur, qui hérite
+des droits de l'utilisateur, dispose en plus de la capacité de gérer les comptes
+utilisateurs, ajouter des livres et consulter les statistiques globales. La relation
+\textit{<<include>>} indique que l'authentification est un prérequis indispensable
+\`a toute action.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{"cas d'utilisation.png"}
+    \caption{Diagramme des cas d'utilisation --- Système de Gestion de Bibliothèque}
+    \label{fig:cas-utilisation}
+\end{figure}
+
+\section{Diagramme de classes}
+
+\subsection{Définition}
+
+Le diagramme de classes est le diagramme structurel central d'UML \cite{uml}. Il décrit
+la structure statique du système en représentant les classes qui le composent, leurs
+attributs, leurs méthodes et les relations qui les unissent (associations, agrégations,
+compositions, héritages). Il sert de fondement à la conception de la base de données
+et à l'organisation du code source \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+Le modèle de données de Gestion de Bibliothèque s'articule autour de plusieurs classes principales.
+La classe \textbf{Utilisateur} est au centre du modèle~: elle peut emprunter des livres,
+faire des réservations, laisser des avis. La classe \textbf{Administrateur}
+hérite de la classe Utilisateur et dispose de méthodes supplémentaires pour la
+gestion des comptes. La classe \textbf{Livre} est associée à des \textbf{Auteurs},
+\textbf{Catégories}, et peut avoir des \textbf{Chapitres}. Les classes \textbf{Emprunt},
+\textbf{Réservation}, \textbf{Avis} gèrent les interactions des utilisateurs avec les livres.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{"digramme classe.png"}
+    \caption{Diagramme de classes --- Gestion de Bibliothèque}
+    \label{fig:diagramme-classes}
+\end{figure}
+
+\section{Diagramme de séquence}
+
+\subsection{Définition}
+
+Le diagramme de séquence est un diagramme d'interaction UML qui décrit l'ordre
+temporel des messages échangés entre les différents objets ou composants d'un
+système lors de l'exécution d'un scénario précis \cite{uml}. Il représente
+les interactions de manière chronologique, de haut en bas, et permet de visualiser
+clairement le flux de contrôle entre les entités participantes. Il est
+particulièrement adapté pour modéliser des cas d'utilisation complexes impliquant
+plusieurs couches applicatives \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+Le diagramme de séquence présenté illustre le scénario d'emprunt d'un livre
+par un utilisateur. Il implique cinq entités~: l'\textbf{Utilisateur},
+l'\textbf{Interface Web} (frontend Vue.js), le \textbf{ContrôleurEmprunt},
+le \textbf{ServiceEmprunt} et la \textbf{BaseDeDonnees}. Après sélection du livre,
+le frontend soumet la requête au contrôleur, qui délègue la validation au service.
+Si le livre est disponible, l'emprunt est enregistré en base et une confirmation est
+retournée à l'utilisateur. Dans le cas contraire, un message d'erreur est affiché.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{"digramme sequence.png"}
+    \caption{Diagramme de séquence --- Emprunt d'un livre}
+    \label{fig:diagramme-sequence}
+\end{figure}
+
+\section{Diagramme d'activité}
+
+\subsection{Définition}
+
+Le diagramme d'activité est un diagramme comportemental UML qui modélise le flux
+d'activités au sein d'un processus \cite{uml}. Il est similaire à un organigramme,
+mais offre des constructions supplémentaires telles que les \textit{swimlanes}
+(couloirs de responsabilité), les décisions, les fusions et les fourches. Il est
+particulièrement utilisé pour décrire des processus métier, des algorithmes ou
+des flux de travail impliquant plusieurs acteurs ou systèmes \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+Le diagramme d'activité ci-dessous représente le processus d'emprunt d'un livre,
+réparti entre deux swimlanes~: l'\textbf{Utilisateur} et le \textbf{Système}.
+L'utilisateur recherche et sélectionne un livre, soumet la demande d'emprunt. Le système
+vérifie la disponibilité~: si le livre est disponible, l'emprunt est enregistré,
+une date de retour est fixée, puis le tableau de bord est mis à jour et un message
+de succès est affiché. Si le livre n'est pas disponible, une réservation est proposée.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{"Diagramme d'activité – Emprunter un livre.png"}
+    \caption{Diagramme d'activité --- Emprunter un livre}
+    \label{fig:diagramme-activite}
+\end{figure}
+
+\section{Diagramme état-transition}
+
+\subsection{Définition}
+
+Le diagramme état-transition (ou diagramme de machine à états) est un diagramme
+comportemental UML qui modélise les différents états qu'un objet peut traverser
+au cours de son cycle de vie, ainsi que les transitions permettant de passer d'un état
+à un autre en réponse à des événements ou des conditions particulières
+\cite{uml}. Il permet de décrire précisément les actions réalisées à
+l'entrée, pendant et à la sortie de chaque état \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+Le cycle de vie d'un emprunt dans Gestion de Bibliothèque passe par plusieurs états.
+À sa création, il est à l'état \textbf{En cours}. Une fois la date de retour atteinte,
+il entre dans l'état \textbf{En retard} avec application d'amendes. L'utilisateur peut
+prolonger l'emprunt ou retourner le livre. À partir de l'état Retourné, l'emprunt
+est clos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{"Diagramme état-transition.png"}
+    \caption{Diagramme état-transition --- Cycle de vie d'un Emprunt}
+    \label{fig:diagramme-etat}
+\end{figure}
+
+\section{Diagramme de paquetage}
+
+\subsection{Définition}
+
+Le diagramme de paquetage est un diagramme structurel UML qui organise les éléments
+du système en groupes logiques appelés paquetages \cite{uml}. Il permet de visualiser
+l'architecture modulaire d'un système, les dépendances entre ses différents modules
+et la répartition des responsabilités. Ce diagramme est particulièrement utile pour
+représenter l'architecture en couches d'une application \cite{pressman}.
+
+\subsection{Application au projet Gestion de Bibliothèque}
+
+L'architecture de Gestion de Bibliothèque s'organise en plusieurs couches distinctes. La couche
+\textbf{Gestion d'Interface} regroupe les pages et formulaires. La couche
+\textbf{Gestion d'Actions} contient les contrôleurs. La couche \textbf{Gestion Services}
+encapsule la logique métier. La couche \textbf{Gestion modèle} contient les entités
+du domaine. La couche \textbf{Gestion répertoires} représente les repositories
+d'accès aux données. Enfin, la couche \textbf{Base de données} gère la persistance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{"package diagram.png"}
+    \caption{Diagramme de paquetage --- Architecture de Gestion de Bibliothèque}
+    \label{fig:diagramme-paquetage}
+\end{figure}
+
+\section{Conclusion}
+
+Ce chapitre a présenté l'ensemble des diagrammes UML produits dans le cadre du projet
+Gestion de Bibliothèque. Ces modèles constituent une base solide pour guider le développement et assurer
+la cohérence entre les besoins exprimés et les choix techniques.
+
+\chapter{Méthodologie, choix technologiques et réalisation}
+
+\begin{center}
+    \textbf{Résumé du chapitre}
+\end{center}
+\begin{center}
+    \fbox{%
+        \begin{minipage}{0.85\textwidth}
+            \small
+            Ce chapitre décrit la démarche méthodologique adoptée, les technologies choisies,
+            et la réalisation concrète de l'application Gestion de Bibliothèque.
+        \end{minipage}
+    }
+\end{center}
+
+\clearpage
+\section{Introduction}
+
+Tout projet de développement logiciel nécessite une approche méthodologique structurée
+ainsi que des choix technologiques cohérents avec les objectifs visés. Nous présentons
+ici la démarche adoptée pour piloter le développement de Gestion de Bibliothèque, ainsi que les
+technologies retenues pour chacune des couches de l'application.
+
+\section{Méthodologie de développement}
+
+Pour ce projet, nous avons adopté une approche inspirée des méthodes agiles \cite{agile},
+plus particulièrement du modèle \textbf{Scrum allégé}. Le travail a été
+organisé en itérations successives (sprints), chacune aboutissant à un incrément
+fonctionnel de l'application.
+
+Les grandes étapes du projet ont été les suivantes~:
+\begin{enumerate}
+    \item Analyse des besoins et définition du périmètre fonctionnel.
+    \item Conception UML et architecture technique.
+    \item Développement du backend avec Laravel.
+    \item Développement du frontend avec Vue.js.
+    \item Intégration et tests automatisés avec Robot Framework.
+    \item Corrections et mise au point finale.
+\end{enumerate}
+
+\section{Présentation des technologies utilisées}
+
+\subsection{Laravel --- Backend}
+\begin{wrapfigure}{l}{0.15\textwidth}
+    \includegraphics[width=0.75\linewidth]{"laravel-logo.png"}
+\end{wrapfigure}
+\textbf{Laravel} \cite{laravel} est un framework PHP open-source, créé par Taylor
+Otwell en 2011. Il suit le patron architectural \textbf{MVC (Modèle-Vue-Contrôleur)}
+et offre un ensemble riche de fonctionnalités~: routage avancé, ORM Eloquent,
+système de migrations, gestion des sessions et authentification intégrée.
+
+Dans le cadre de Gestion de Bibliothèque, Laravel expose une API RESTful consommée par le frontend
+Vue.js et gère l'ensemble de la logique métier ainsi que la persistance des données
+via Eloquent ORM.
+
+\subsection{Vue.js --- Frontend}
+\begin{wrapfigure}{l}{0.15\textwidth}
+    \includegraphics[width=0.75\linewidth]{"vue-logo.png"}
+\end{wrapfigure}
+\textbf{Vue.js} \cite{vuejs} est un framework JavaScript progressif, développé par
+Evan You et publié en 2014. Il repose sur une architecture orientée composants et
+intègre un système de réactivité qui met automatiquement à jour le DOM
+lorsque les données changent. Dans Gestion de Bibliothèque, Vue.js est responsable de l'ensemble de
+l'interface utilisateur.
+
+\subsection{Robot Framework --- Tests automatisés}
+
+\textbf{Robot Framework} \cite{robot} est un framework open-source d'automatisation des
+tests développé en Python. Il adopte une approche orientée mots-clés
+(\textit{keyword-driven testing}), largement utilisée pour les tests d'acceptation et
+les tests fonctionnels de bout en bout. Dans ce projet, il est utilisé pour simuler
+les interactions utilisateur et vérifier la conformité du système.
+
+\subsection{Autres outils}
+
+\begin{itemize}
+    \item \textbf{MySQL} \cite{mysql}~: système de gestion de bases de données relationnelles.
+    \item \textbf{Git / GitHub}~: outil de gestion de versions et plateforme de collaboration.
+    \item \textbf{Postman}~: outil de test et de documentation des API REST.
+    \item \textbf{Visual Studio Code}~: environnement de développement intégré principal.
+    \item \textbf{Laravel Sanctum} \cite{laravel-sanctum}~: module d'authentification par token.
+\end{itemize}
+
+\section{Architecture générale du système}
+
+L'architecture de Gestion de Bibliothèque suit le modèle \textbf{client-serveur découplé} \cite{restapi}.
+Le frontend Vue.js et le backend Laravel sont deux applications distinctes qui communiquent
+exclusivement via une API REST en JSON. Le backend est organisé en couches~:
+\textit{contrôleurs}, \textit{services}, \textit{repositories} et \textit{modèles} Eloquent.
+
+\section{Conclusion}
+
+Ce chapitre a présenté la méthodologie de développement adoptée ainsi que les
+technologies qui constituent le socle technique de Gestion de Bibliothèque. La suite de ce chapitre présente
+la réalisation concrète de l'application.
+
+\section{Réalisation}
+
+\begin{center}
+    \textbf{Résumé du chapitre}
+\end{center}
+\begin{center}
+    \fbox{%
+        \begin{minipage}{0.85\textwidth}
+            \small
+            Ce chapitre présente les résultats concrets du développement de
+            l'application Gestion de Bibliothèque. Il décrit les principales fonctionnalités
+            implémentées et les tests effectués pour valider le bon fonctionnement
+            du système.
+        \end{minipage}
+    }
+\end{center}
+
+\subsection{Introduction}
+
+Cette section présente la mise en œuvre concrète du projet Gestion de Bibliothèque. Après
+les phases de conception et de planification décrites dans les chapitres précédents.
+
+\section{Fonctionnalités développées}
+
+\subsection{Authentification des utilisateurs}
+\begin{figure}[h]
+    \includegraphics[width=1\linewidth]{"login.png"}
+\end{figure}
+Cette fonctionnalité permet aux utilisateurs d'accéder de manière sécurisée à la plateforme Gestion de Bibliothèque grâce à un système complet d'authentification. L'interface propose une connexion simple et intuitive à l'aide d'une adresse e-mail et d'un mot de passe.
+
+Le système inclut également une fonctionnalité de création de compte permettant aux nouveaux utilisateurs de s'inscrire facilement à l'application. Une option « Se souvenir de moi » est disponible afin de maintenir la session active pour une meilleure expérience utilisateur.
+
+Pour renforcer l'accessibilité et la flexibilité, l'application prend aussi en charge l'authentification via des services externes tels que Google et Apple. De plus, une fonctionnalité de récupération de mot de passe permet aux utilisateurs de réinitialiser leurs identifiants en cas d'oubli.
+
+Cette fonctionnalité garantit la sécurité des données personnelles et des emprunts des utilisateurs tout en offrant une expérience de connexion fluide et moderne.
+
+\subsection{Gestion des livres et emprunts}
+\begin{figure}[ht]
+    \includegraphics[width=1\linewidth]{"depence-revenue.png"}
+\end{figure}
+Cette fonctionnalité permet à l’utilisateur de gérer efficacement l’ensemble de ses transactions financières à travers une interface moderne et intuitive. Elle offre une vue globale des revenus, des dépenses ainsi que du solde net afin de faciliter le suivi budgétaire en temps réel.
+L’interface affiche une liste détaillée des transactions avec plusieurs informations importantes telles que la date, la catégorie, la description, le statut et le montant associé. Chaque transaction peut être modifiée ou supprimée grâce aux actions disponibles dans le tableau.
+Le système intègre également des fonctionnalités de filtrage permettant d’afficher les transactions selon leur type (revenus ou dépenses), leur catégorie ou encore leur période temporelle. Une barre de recherche facilite aussi la localisation rapide d’une transaction spécifique.
+Cette fonctionnalité contribue à une meilleure organisation financière en permettant à l’utilisateur d’analyser ses habitudes de dépenses et de revenus de manière claire et structurée.
+
+\subsection{Gestion des catégories}
+\begin{figure}[h]
+    \includegraphics[width=1\linewidth]{"categorie.png"}
+\end{figure}
+Cette fonctionnalité permet à l'utilisateur d'organiser les livres de la bibliothèque à travers un système de catégories personnalisé. Chaque catégorie représente un genre spécifique de livre, ce qui facilite la recherche et la navigation dans la collection.
+
+L'interface affiche l'ensemble des catégories disponibles sous forme de cartes contenant le nom, l'icône associée ainsi que le nombre de livres liés à chaque catégorie. L'utilisateur peut explorer les livres par catégorie afin d'adapter ses recherches à ses intérêts personnels.
+
+Le système offre également des options de filtrage permettant d'afficher toutes les catégories ou uniquement celles contenant des livres disponibles. Cette organisation améliore la lisibilité de la collection et permet un meilleur accès aux ressources documentaires.
+
+Grâce à cette fonctionnalité, l'utilisateur bénéficie d'une navigation plus structurée et d'une découverte plus aisée des livres disponibles dans la bibliothèque.
+
+\subsection{Tableau de bord}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{"dashboard.png"}
+\end{figure}
+Cette fonctionnalité constitue l'interface principale de l'application Gestion de Bibliothèque et offre une vue d'ensemble de l'activité de l'utilisateur. Le tableau de bord centralise les informations essentielles afin de permettre un suivi rapide et efficace des emprunts, réservations et retours.
+
+L'interface affiche des indicateurs importants tels que le nombre d'emprunts en cours, les réservations actives, les livres en retard ainsi que le solde des amendes. Ces données sont mises à jour dynamiquement pour fournir une vision claire de l'état des emprunts de l'utilisateur.
+
+Le tableau de bord intègre également des graphiques statistiques permettant de visualiser les emprunts par catégorie et les tendances de lecture sur différentes périodes. Une répartition des emprunts par genre est aussi présentée afin d'identifier les préférences de lecture.
+
+Enfin, la section des derniers emprunts permet d'accéder rapidement aux opérations récentes effectuées dans l'application. Cette fonctionnalité aide l'utilisateur à gérer ses emprunts et à découvrir de nouveaux livres grâce à des visualisations simples et interactives.
+
+\subsection{Gestion des paramètres}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{"settings.png"}
+\end{figure}
+Cette fonctionnalité permet à l’utilisateur de personnaliser et de gérer les différents paramètres de son compte ainsi que les préférences de l’application. Elle centralise les options liées au profil, à la sécurité et à l’expérience utilisateur dans une interface claire et organisée.
+
+La section profil permet de consulter et de modifier les informations personnelles telles que le nom, l’adresse e-mail et la photo de profil. Le système offre également des fonctionnalités de mise à jour des informations du compte ainsi que la vérification de l’adresse e-mail.
+
+L'utilisateur peut configurer plusieurs préférences de l'application, notamment la langue de l'interface, l'activation du mode sombre pour améliorer le confort visuel, et les notifications pour les rappels de retour.
+
+\subsection{Interface d'administration}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{"admin.png"}
+\end{figure}
+Cette fonctionnalité permet à l'administrateur de superviser et de gérer l'ensemble de la bibliothèque à travers une interface dédiée à l'administration. Le tableau de bord fournit une vue globale sur les utilisateurs et l'activité de la plateforme.
+
+L'interface affiche plusieurs indicateurs statistiques importants tels que le nombre total d'utilisateurs, le nombre d'utilisateurs actifs, les administrateurs ainsi que les emprunts en cours. Ces informations permettent un suivi rapide de l'état de la bibliothèque.
+
+Une section dédiée aux utilisateurs actifs permet à l’administrateur de visualiser les personnes connectées récemment ainsi que leur statut de connexion. Cette fonctionnalité facilite le suivi de l’activité en temps réel.
+
+Le système intègre également une fonctionnalité complète de gestion des utilisateurs. L’administrateur peut consulter les informations des comptes, gérer les rôles, ajouter de nouveaux utilisateurs ou supprimer des comptes existants. Les statistiques liées aux emprunts et aux réservations de chaque utilisateur sont également disponibles.
+
+Cette fonctionnalité garantit une meilleure administration de l’application et facilite le contrôle global du système ainsi que la gestion des accès utilisateurs.
+
+\section{Tests automatisés avec Robot Framework}
+
+Une suite de tests automatisés a été développée avec \textbf{Robot Framework}
+\cite{robot}, couvrant les scénarios principaux~: inscription, connexion, emprunt d'un
+livre disponible, rejet d'un emprunt invalide et consultation du tableau de bord.
+Chaque test suit la structure \textbf{AAA (Arranger, Agir, Affirmer)}.
+
+\section{Résultats obtenus}
+
+L'application Gestion de Bibliothèque répond aux objectifs initialement fixés. L'ensemble des
+fonctionnalités prévues a été implémenté et validé par les tests.
+La séparation entre frontend et backend s'est avérée bénéfique pour la
+maintenabilité du code et la répartition du travail au sein de l'équipe.
+
+\section{Conclusion}
+
+Ce chapitre a présenté la réalisation concrète de l'application Gestion de Bibliothèque.
+L'ensemble du travail réalisé démontre la faisabilité technique du projet
+et valide les choix de conception effectués en amont.
+
+\chapter*{Conclusion générale}
+\addcontentsline{toc}{chapter}{Conclusion générale}
+
+Ce projet nous a permis de mener à bien le développement complet d'une application
+web de gestion de bibliothèque, \textbf{Gestion de Bibliothèque}, en mobilisant un ensemble de
+compétences techniques et méthodologiques acquises au cours de notre formation.
+
+Sur le plan technique, nous avons mis en pratique une architecture full-stack moderne,
+associant \textbf{Laravel} pour le backend, \textbf{Vue.js} pour le frontend et
+\textbf{Robot Framework} pour les tests automatisés. La modélisation UML réalisée
+en amont a constitué un guide précieux tout au long du développement.
+
+Sur le plan personnel, ce projet nous a permis de renforcer notre capacité à
+travailler en équipe, à gérer les imprévus, et à produire un livrable de
+qualité dans un délai contraint.
+
+En perspective, plusieurs améliorations pourraient être envisagées~: l'ajout
+d'alertes budgétaires personnalisables, l'export des données en PDF ou CSV, ou
+encore le développement d'une version mobile via React Native ou Flutter.
+
+\chapter*{Références bibliographiques}
+\addcontentsline{toc}{chapter}{Références bibliographiques}
+
+\begin{thebibliography}{99}
+
+\bibitem{laravel}
+Taylor Otwell,
+\textit{Laravel: The PHP Framework for Web Artisans}, 2011.
+Disponible en ligne~: \url{https://laravel.com/docs}
+
+\bibitem{vuejs}
+Evan You,
+\textit{Vue.js --- The Progressive JavaScript Framework}, 2014.
+Disponible en ligne~: \url{https://vuejs.org/guide/introduction.html}
+
+\bibitem{robot}
+Robot Framework Foundation,
+\textit{Robot Framework User Guide}, version 6.x.
+Disponible en ligne~: \url{https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html}
+
+\bibitem{uml}
+Object Management Group,
+\textit{Unified Modeling Language Specification}, version 2.5.1, 2017.
+Disponible en ligne~: \url{https://www.omg.org/spec/UML/2.5.1}
+
+\bibitem{restapi}
+Roy T. Fielding,
+\textit{Architectural Styles and the Design of Network-based Software Architectures},
+thèse de doctorat, University of California, Irvine, 2000.
+
+\bibitem{mysql}
+Oracle Corporation,
+\textit{MySQL 8.0 Reference Manual}.
+Disponible en ligne~: \url{https://dev.mysql.com/doc/refman/8.0/en/}
+
+\bibitem{laravel-sanctum}
+Laravel LLC,
+\textit{Laravel Sanctum Documentation}.
+Disponible en ligne~: \url{https://laravel.com/docs/sanctum}
+
+\bibitem{pressman}
+Roger S. Pressman,
+\textit{Software Engineering: A Practitioner's Approach},
+8\textsuperscript{e}~édition, McGraw-Hill, 2014.
+
+\bibitem{agile}
+Ken Schwaber et Jeff Sutherland,
+\textit{The Scrum Guide}, 2020.
+Disponible en ligne~: \url{https://scrumguides.org/scrum-guide.html}
+
+\bibitem{fowler}
+Martin Fowler,
+\textit{UML Distilled: A Brief Guide to the Standard Object Modeling Language},
+3\textsuperscript{e}~édition, Addison-Wesley, 2003.
+
+\end{thebibliography}
+
+\end{document}
