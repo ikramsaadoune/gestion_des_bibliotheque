@@ -25,7 +25,6 @@ class BorrowingController extends Controller
             if ($request->status === 'overdue') {
                 $query->where('status', 'borrowed')->where('due_at', '<', now());
                 Borrowing::where('status', 'borrowed')->where('due_at', '<', now())
-                    ->whereDoesntHave('fine')
                     ->each(function ($borrowing) {
                         $this->createFineForOverdue($borrowing);
                     });

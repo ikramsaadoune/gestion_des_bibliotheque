@@ -29,13 +29,13 @@ class CheckOverdueBorrowings extends Command
 
             $amount = $daysOverdue * 5;
 
-            DB::transaction(function () use ($borrowing, $amount) {
+            DB::transaction(function () use ($borrowing, $amount, $daysOverdue) {
                 Fine::updateOrCreate(
                     ['borrowing_id' => $borrowing->id],
                     [
                         'user_id' => $borrowing->user_id,
                         'amount' => $amount,
-                        'reason' => "Retard de {$borrowing->due_at->startOfDay()->diffInDays(now()->startOfDay())} jour(s)",
+                        'reason' => "Retard de {$daysOverdue} jour(s)",
                         'status' => 'unpaid',
                     ]
                 );

@@ -37,13 +37,16 @@ class FineController extends Controller
         $finePerDay = (float) (Setting::get('fine_per_day') ?? 5);
 
         Fine::where('status', 'unpaid')
-            ->whereHas('borrowing', fn($q) => $q->where('status', 'borrowed')->whereNotNull('due_at'))
+            ->whereHas('borrowing', fn($q) => $q->whereNotNull('due_at'))
             ->each(function (Fine $fine) use ($finePerDay) {
                 $borrowing = $fine->borrowing;
                 if (!$borrowing || !$borrowing->due_at) return;
 
-                $daysOverdue = (int) $borrowing->due_at->startOfDay()->diffInDays(now()->startOfDay());
-                if ($daysOverdue < 1) return;
+                $endDate = $borrowing->returned_at ?? now();
+                $daysOverdue = (int) $borrowing->due_at->startOfDay()->diffInDays($endDate->startOfDay());
+                if ($daysOverdue < 1) {
+                    $daysOverdue = 1;
+                }
 
                 $fine->update([
                     'amount' => $daysOverdue * $finePerDay,
@@ -79,9 +82,10 @@ class FineController extends Controller
         DB::transaction(function () use ($fine) {
             $borrowing = $fine->borrowing;
             if ($borrowing) {
+                $endDate = $borrowing->returned_at ?? now();
                 $daysOverdue = 0;
-                if ($borrowing->due_at && now()->gt($borrowing->due_at)) {
-                    $daysOverdue = (int) $borrowing->due_at->startOfDay()->diffInDays(now()->startOfDay());
+                if ($borrowing->due_at && $endDate->gt($borrowing->due_at)) {
+                    $daysOverdue = (int) $borrowing->due_at->startOfDay()->diffInDays($endDate->startOfDay());
                     if ($daysOverdue === 0) { $daysOverdue = 1; }
                 }
                 $finePerDay = (float) (\App\Models\Setting::get('fine_per_day') ?? 5);
